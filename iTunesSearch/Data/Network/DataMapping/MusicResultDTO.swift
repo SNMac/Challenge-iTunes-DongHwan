@@ -24,7 +24,7 @@ struct MusicResultDTO: Decodable {
     let trackViewURL: String
     let previewURL: String?
     let artworkUrl30, artworkUrl60, artworkUrl100: String
-    let collectionPrice, trackPrice: Double
+    let collectionPrice, trackPrice: Double?
     let releaseDate: String
     let collectionExplicitness, trackExplicitness: String
     let discCount, discNumber, trackCount, trackNumber: Int?
