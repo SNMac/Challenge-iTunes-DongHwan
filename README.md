@@ -1,6 +1,6 @@
-# iTunesSearch
+# iTunes Search
 
-> iTunesSearch는 iTunes Search API를 통해 홈 화면에서 음악들을 보여주고, 추가적으로 팟캐스트, 영화 검색 기능을 제공하는 앱입니다.
+> iTunes Search는 iTunes Search API를 통해 홈 화면에서 음악들을 보여주고, 추가적으로 팟캐스트, 영화 검색 기능을 제공하는 앱입니다.
 <br/>
 
 ## 📋 프로젝트 개요
@@ -15,28 +15,36 @@ MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 �
 <br/>
 
 ## 🛠️ 기술 스택
+| 범위 | 기술 이름 |
+|:---------:|:----------|
+| 형상 관리 도구 | `Git`, `GitHub` |
+| 아키텍처 | `MVVM` |
+| 인터페이스 | `UIKit` |
+| 네트워크 | `URLSession`, `Swift Concurrency` |
+| 비동기 처리 | `RxSwift` |
+| 레이아웃 구성 | `SnapKit`, `Then` |
+| 이미지 캐싱 | `Actor`, `NSCache`, `FileManager` |
+| 내부 저장소 | `UserDefaults` |
+
+
+### UI Frameworks
+- UIKit
 
 ### 아키텍처
-
 - MVVM
 
 ### 비동기 처리
-
 - RxSwift
 - Swift Concurrency
 
 ### API 통신
-
 - URLSession
 
 ### 활용 API
-
 - iTunes Search API
 
-### UI Frameworks
-
-- UIKit
-- SnapKit(AutoLayout)
+### 레이아웃 구성
+- SnapKit
 <br/>
 
 ## 📱 프로젝트 구현 기능
