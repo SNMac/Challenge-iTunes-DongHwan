@@ -21,30 +21,10 @@ MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 �
 | 아키텍처 | `MVVM` |
 | 인터페이스 | `UIKit` |
 | 네트워크 | `URLSession`, `Swift Concurrency` |
-| 비동기 처리 | `RxSwift` |
+| 비동기 처리 | `RxSwift`, `RxCocoa` |
 | 레이아웃 구성 | `SnapKit`, `Then` |
 | 이미지 캐싱 | `Actor`, `NSCache`, `FileManager` |
 | 내부 저장소 | `UserDefaults` |
-
-
-### UI Frameworks
-- UIKit
-
-### 아키텍처
-- MVVM
-
-### 비동기 처리
-- RxSwift
-- Swift Concurrency
-
-### API 통신
-- URLSession
-
-### 활용 API
-- iTunes Search API
-
-### 레이아웃 구성
-- SnapKit
 <br/>
 
 ## 📱 프로젝트 구현 기능
