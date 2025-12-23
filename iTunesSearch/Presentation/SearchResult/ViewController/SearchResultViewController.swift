@@ -172,7 +172,7 @@ private extension SearchResultViewController {
         }
         
         let podCastCellRegistration = UICollectionView.CellRegistration<PodcastCell, PodcastResultModel> { cell, indexPath, item in
-            cell.configure(thumbnailURL: item.artworkUrl600,
+            cell.configure(thumbnailURL: item.artworkUrl600 ?? item.artworkUrl100,
                            marketingPhrases: item.marketingPhrase,
                            title: item.trackName,
                            artist: item.artistName)

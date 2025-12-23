@@ -11,26 +11,35 @@ import Foundation
 struct PodcastResultDTO: Decodable {
     let wrapperType: String
     let kind: String
-    let artistID: Int?
-    let collectionID, trackID: Int
-    let artistName, collectionName, trackName, collectionCensoredName: String
-    let trackCensoredName: String
-    let artistViewURL: String?
+    let collectionID: Int
+    let trackID: Int
+    let artistName: String
+    let collectionName: String
+    let trackName: String
+    let collectionCensoredName: String?
+    let trackCensoredName: String?
     let collectionViewURL: String
-    let feedURL: String?
     let trackViewURL: String
-    let artworkUrl30, artworkUrl60, artworkUrl100: String
-    let collectionPrice, trackPrice, collectionHDPrice: Int
+    let artworkUrl30: String?
+    let artworkUrl60, artworkUrl100: String
+    let collectionPrice: Double?
+    let trackPrice: Double?
+    let collectionHDPrice: Double?
     let releaseDate: String
-    let collectionExplicitness, trackExplicitness: String
+    let collectionExplicitness: String
+    let trackExplicitness: String
     let trackCount: Int
     let trackTimeMillis: Int?
     let country: String
     let currency: String
     let primaryGenreName: String
     let contentAdvisoryRating: String?
-    let artworkUrl600: String
-    let genreIDS, genres: [String]
+    let artworkUrl600: String?
+    let genreIDS: [String]?
+    let genres: [String]?
+    let artistID: Int?
+    let artistViewURL: String?
+    let feedURL: String?
     
     enum CodingKeys: String, CodingKey {
         case wrapperType, kind

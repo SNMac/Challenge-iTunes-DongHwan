@@ -17,6 +17,8 @@ final class SeasonMusicCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
+    
     /// 네트워크 통신 `Task` 저장(`deinit` 될 때 실행 중단용)
     private var fetchTask: Task<Void, Never>?
     
@@ -69,8 +71,6 @@ final class SeasonMusicCell: UICollectionViewCell {
     // MARK: - Methods
     
     func configure(thumbnailURL: String, title: String, artist: String, collection: String, isBottom: Bool) {
-        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
-        
         fetchTask = Task {
             do {
                 let imageData = try await ImageCacheManager.shared.fetchImage(from: thumbnailURL)
@@ -79,7 +79,7 @@ final class SeasonMusicCell: UICollectionViewCell {
                 thumbnailView.startFadeInAnimation()
             } catch {
                 thumbnailView.setPlaceholder()
-                os_log(.error, log: log, "\(error.localizedDescription)")
+                logger.error("\(error.localizedDescription)")
             }
         }
         

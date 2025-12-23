@@ -13,7 +13,7 @@ final class iTunesSearchAPIManager {
     
     // MARK: - Properties
     
-    private lazy var log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
     
     // MARK: - Network Methods
     
@@ -43,7 +43,7 @@ final class iTunesSearchAPIManager {
             let responseDTO = try JSONDecoder().decode(ResponseDTO<DTO>.self, from: data)
             return responseDTO.results.map(transform)
         } catch {
-            os_log(.error, log: log, "\(error)")
+            logger.error("\(error)")
             throw DataError.parsingFailed
         }
     }

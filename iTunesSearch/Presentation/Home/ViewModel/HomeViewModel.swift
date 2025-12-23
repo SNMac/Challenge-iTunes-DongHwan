@@ -16,6 +16,8 @@ final class HomeViewModel {
     
     // MARK: - Properties
     
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
+    
     private let iTunesSearchAPIUseCase: iTunesSearchAPIUseCase
     
     /// 네트워크 통신 `Task` 저장(`deinit` 될 때 실행 중단용)
@@ -37,8 +39,6 @@ final class HomeViewModel {
     // MARK: - Transform (Input ➡️ Output)
     
     func transform(input: Input) -> Output {
-        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
-        
         let musicListChunksRelay = BehaviorRelay<MusicListChunks>(value: ([], [], [], []))
         
         fetchTask = Task { [iTunesSearchAPIUseCase] in
@@ -66,7 +66,7 @@ final class HomeViewModel {
                     musicListChunksRelay.accept(musicListchunks)
                 } catch {
                     // TODO: - 에러 Alert 표시
-                    os_log(.error, log: log, "\(error.localizedDescription)")
+                    logger.error("\(error.localizedDescription)")
                 }
             }
         }

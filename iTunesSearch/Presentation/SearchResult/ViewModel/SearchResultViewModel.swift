@@ -16,6 +16,8 @@ final class SearchResultViewModel {
     
     // MARK: - Properties
     
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
+    
     private let iTunesSearchAPIUseCase: iTunesSearchAPIUseCase
     
     private let podcastQueryLimit = 5
@@ -43,8 +45,6 @@ final class SearchResultViewModel {
     // MARK: - Transform (Input ➡️ Output)
     
     func transform(input: Input) -> Output {
-        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
-        
         let searchResultChunksRelay = BehaviorRelay<SearchResultChunks>(value: ([], [], []))
     
         fetchTask = Task { [iTunesSearchAPIUseCase] in
@@ -53,7 +53,7 @@ final class SearchResultViewModel {
                 
                 let podcastQueryDTO = iTunesQuery(term: searchText, mediaType: MediaType.podcast.rawValue, limit: podcastQueryLimit)
                 let movieQueryDTO = iTunesQuery(term: searchText, mediaType: MediaType.movie.rawValue, limit: movieQueryLimit)
-                os_log(.debug, log: log, "fetchTask: \(self.podcastQueryLimit), \(self.movieQueryLimit)")
+                logger.info("fetchTask: \(self.podcastQueryLimit), \(self.movieQueryLimit)")
                 
                 let searchText = SearchTextModel(searchText: searchText)
                 async let podcastList = iTunesSearchAPIUseCase.fetchSearchResultList(with: podcastQueryDTO,
@@ -68,7 +68,7 @@ final class SearchResultViewModel {
                     searchResultChunksRelay.accept(searchResultChunks)
                 } catch {
                     // TODO: - 에러 Alert 표시
-                    os_log(.error, log: log, "\(error.localizedDescription)")
+                    logger.error("\(error.localizedDescription)")
                 }
             }
         }
@@ -78,7 +78,7 @@ final class SearchResultViewModel {
                 .withLatestFrom(input.searchText.debounce(.milliseconds(300), scheduler: MainScheduler.asyncInstance).distinctUntilChanged())
             for await searchText in infallible.values {
                 movieQueryLimit += 10
-                os_log(.debug, log: log, "loadingMoreTask: \(self.podcastQueryLimit), \(self.movieQueryLimit)")
+                logger.info("loadingMoreTask: \(self.podcastQueryLimit), \(self.movieQueryLimit)")
                 
                 let podcastQueryDTO = iTunesQuery(term: searchText, mediaType: MediaType.podcast.rawValue, limit: podcastQueryLimit)
                 let movieQueryDTO = iTunesQuery(term: searchText, mediaType: MediaType.movie.rawValue, limit: movieQueryLimit)
@@ -97,7 +97,7 @@ final class SearchResultViewModel {
                 } catch {
                     // TODO: - 에러 Alert 표시
                     movieQueryLimit -= 10
-                    os_log(.error, log: log, "\(error.localizedDescription)")
+                    logger.error("\(error.localizedDescription)")
                 }
             }
         }

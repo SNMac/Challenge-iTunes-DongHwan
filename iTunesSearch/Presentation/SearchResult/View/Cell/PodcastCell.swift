@@ -17,6 +17,8 @@ final class PodcastCell: UICollectionViewCell {
     
     // MARK: - Properties
     
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
+    
     /// 네트워크 통신 `Task` 저장(`deinit` 될 때 실행 중단용)
     private var fetchTask: Task<Void, Never>?
     
@@ -80,8 +82,6 @@ final class PodcastCell: UICollectionViewCell {
     // MARK: - Methods
     
     func configure(thumbnailURL: String, marketingPhrases: String, title: String, artist: String) {
-        let log = OSLog(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
-        
         fetchTask = Task {
             do {
                 let imageData = try await ImageCacheManager.shared.fetchImage(from: thumbnailURL)
@@ -90,7 +90,7 @@ final class PodcastCell: UICollectionViewCell {
                 thumbnailView.startFadeInAnimation()
             } catch {
                 thumbnailView.setPlaceholder()
-                os_log(.error, log: log, "\(error.localizedDescription)")
+                logger.error("\(error.localizedDescription)")
             }
         }
         marketingPhrasesLabel.text = marketingPhrases
