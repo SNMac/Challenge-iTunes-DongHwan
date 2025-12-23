@@ -1,18 +1,19 @@
 # iTunes Search
 
 > iTunes Search는 iTunes Search API를 통해 홈 화면에서 음악들을 보여주고, 추가적으로 팟캐스트, 영화 검색 기능을 제공하는 앱입니다.
-<br/>
+> - 2025.12.23 기준 API의 영화 검색이 동작하지 않아, 홈 화면 음악과 팟캐스트 검색만 정상적으로 동작합니다.
+<br>
 
 ## 📋 프로젝트 개요
 
 MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 결과를 보여주는 앱입니다.
-<br/>
+<br>
 
 ## ⏰ 프로젝트 일정
 
 - **시작일**: 25/05/12  
 - **종료일**: 25/05/19
-<br/>
+<br>
 
 ## 🛠️ 기술 스택
 | 범위 | 기술 이름 |
@@ -25,7 +26,7 @@ MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 �
 | 레이아웃 구성 | `SnapKit`, `Then` |
 | 이미지 캐싱 | `Actor`, `NSCache`, `FileManager` |
 | 내부 저장소 | `UserDefaults` |
-<br/>
+<br>
 
 ## 📱 프로젝트 구현 기능
 
@@ -40,7 +41,7 @@ MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 �
 
 5. **검색 결과 무한 스크롤**  
    검색 결과 화면에서 무한 스크롤을 지원합니다.
-<br/>
+<br>
 
 ## 프로젝트 설명
 
@@ -74,20 +75,20 @@ MVVM 패턴에 RxSwift, Swift Concurrency를 적용하여 구현한 iTunes Searc
 
 <img width="1507" alt="스크린샷 2025-05-22 03 58 46" src="https://github.com/user-attachments/assets/de515de1-b9e3-4c61-a24b-c5751b95a5fe" />
 Xcode의 Profile 기능을 통해 Instruments를 활용하여 메모리 누수 분석을 앱의 모든 화면에 걸쳐 진행하였지만, 메모리 누수는 나타나지 않았습니다.
-<br/>
+<br>
 
 ## 실행 이미지
 
 |    구현 내용    |   스크린샷   |    구현 내용    |   스크린샷   |
 | :-------------: | :----------: | :-------------: | :----------: |
 | 홈 화면 | <img src = "https://github.com/user-attachments/assets/87af962b-dee4-45df-869a-e0983691c39c" width ="250"> | 검색 화면 | <img src = "https://github.com/user-attachments/assets/b7acb944-78ac-4b29-9753-b1cf263d53bc" width ="250"> |
-| 팟캐스트,<br/>영화 섹션 | <img src = "https://github.com/user-attachments/assets/25f95669-311f-439d-b88a-3c1f54edb5b2" width ="250"> | 홈 화면<br/>페이징 | <img src = "https://github.com/user-attachments/assets/e5ed07c3-f1fa-4211-ae52-512811587b00" width ="250"> |
-| 검색 화면<br/>무한 스크롤 | <img src = "https://github.com/user-attachments/assets/a3aa7190-c679-4c6a-a0ac-206f220e0605" width ="250"> | 다크 모드 | <img src = "https://github.com/user-attachments/assets/18edf39e-52a3-4187-aa1a-b4ca85d649d5" width ="250"> |
-<br/>
+| 팟캐스트,<br>영화 섹션 | <img src = "https://github.com/user-attachments/assets/25f95669-311f-439d-b88a-3c1f54edb5b2" width ="250"> | 홈 화면<br>페이징 | <img src = "https://github.com/user-attachments/assets/e5ed07c3-f1fa-4211-ae52-512811587b00" width ="250"> |
+| 검색 화면<br>무한 스크롤 | <img src = "https://github.com/user-attachments/assets/a3aa7190-c679-4c6a-a0ac-206f220e0605" width ="250"> | 다크 모드 | <img src = "https://github.com/user-attachments/assets/18edf39e-52a3-4187-aa1a-b4ca85d649d5" width ="250"> |
+<br>
 
 ## 참고 이미지
 
 |    참고 내용    |   스크린샷   |    참고 내용    |   스크린샷   |
 | :-------------: | :----------: | :-------------: | :----------: |
-| 앱스토어<br/>투데이1 | <img src = "https://github.com/user-attachments/assets/b643e51e-0150-4707-acae-9e15f3895e9e" width ="250"> | 앱스토어<br/>투데이2 | <img src = "https://github.com/user-attachments/assets/07b2ce58-7437-477c-ab7c-7c3f20f46983" width ="250"> |
-| 앱스토어<br/>앱1 | <img src = "https://github.com/user-attachments/assets/89b018ab-fa86-4d80-8978-7d0bec2fed8e" width ="250"> | 앱스토어<br/>앱2 | <img src = "https://github.com/user-attachments/assets/6e536127-ec25-4699-8259-013af91a33f3" width ="250"> |
+| 앱스토어<br>투데이1 | <img src = "https://github.com/user-attachments/assets/b643e51e-0150-4707-acae-9e15f3895e9e" width ="250"> | 앱스토어<br>투데이2 | <img src = "https://github.com/user-attachments/assets/07b2ce58-7437-477c-ab7c-7c3f20f46983" width ="250"> |
+| 앱스토어<br>앱1 | <img src = "https://github.com/user-attachments/assets/89b018ab-fa86-4d80-8978-7d0bec2fed8e" width ="250"> | 앱스토어<br>앱2 | <img src = "https://github.com/user-attachments/assets/6e536127-ec25-4699-8259-013af91a33f3" width ="250"> |
