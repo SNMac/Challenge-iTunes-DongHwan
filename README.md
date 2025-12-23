@@ -16,6 +16,7 @@ MVVM 패턴과 RxSwift의 비동기 처리를 통해 iTunes Search API 호출 �
 <br>
 
 ## 🛠️ 기술 스택
+
 | 범위 | 기술 이름 |
 |:---------:|:----------|
 | 형상 관리 도구 | `Git`, `GitHub` |
@@ -71,6 +72,72 @@ MVVM 패턴에 RxSwift, Swift Concurrency를 적용하여 구현한 iTunes Searc
 또한, 무한 스크롤 데이터 혹은 이미지를 로딩 중일 때 `UIActivityIndicator`를 통해 사용자에게 로딩 중임을 알리도록 하였고, 이미지 로딩에 실패했을 경우 placeholder 이미지를 보여주도록 하였습니다.
 성능 향상을 위해 네트워크 요청을 통해 로드한 이미지는 메모리, 디스크 캐싱을 실행하여 이후 로딩 시 빠르게 표시할 수 있도록 하였습니다.
 
+### 이미지 캐싱 Flow
+``` mermaid
+flowchart TD
+    %% 스타일 정의 (파스텔 톤)
+    classDef base fill:#f9f9f9,stroke:#333,stroke-width:1px;
+    classDef manager fill:#FFB6C1,stroke:#333,stroke-width:2px,color:black;
+    classDef check fill:#FFFACD,stroke:#333,stroke-width:2px,color:black;
+    classDef action fill:#E0FFFF,stroke:#333,stroke-width:1px,color:black;
+    classDef storage fill:#E6E6FA,stroke:#333,stroke-width:1px,color:black;
+    classDef error fill:#FF6F61,stroke:#333,stroke-width:2px,color:white;
+    classDef returnNode fill:#98FB98,stroke:#333,stroke-width:2px,color:black;
+
+    %% 1. 진입점
+    Start([Client Request]) --> ICM_Fetch[fetchImage 호출]:::manager
+    
+    %% 2. 메인 로직 (Manager)
+    subgraph ManagerFlow [ImageCacheManager Flow]
+        direction TB
+        ICM_Fetch --> CheckMem{Memory<br/>Check}:::check
+        
+        CheckMem -- Miss --> CheckDisk{Disk<br/>Check}:::check
+        CheckDisk -- Miss --> Network[URLSession<br/>Download]:::action
+    end
+
+    %% 3. 결과 분기 처리
+    %% 3-1. 에러
+    Network -- Error --> ThrowError([Throw Error]):::error
+
+    %% 3-2. 성공 (데이터 획득)
+    Network -- Success --> DataReady(Image Data):::base
+    CheckDisk -- Hit --> DiskData(Loaded File):::base
+    
+    %% 4. 캐싱 작업 (병렬 처리 느낌으로 배치)
+    subgraph MemoryActor [MemoryCacher]
+        direction TB
+        SaveMem[NSCache 저장]:::storage
+    end
+
+    subgraph DiskActor [DiskCacher]
+        direction TB
+        SaveDisk[Disk 저장 로직<br/>Check Full -> Save]:::storage
+        UpdateMeta[Metadata 업데이트]:::storage
+        SaveDisk --> UpdateMeta
+    end
+
+    %% 5. 연결선 정리 (핵심: 노드 통합으로 길이 단축)
+    
+    %% Memory Hit -> 바로 리턴
+    CheckMem -- Hit --> Return([Return Image Data]):::returnNode
+    
+    %% Disk Hit -> 메모리 저장 -> 리턴 (메타데이터 업데이트 포함)
+    DiskData --> SaveMem
+    DiskData --> UpdateMeta
+    
+    %% Network Success -> 메모리 저장 & 디스크 저장 -> 리턴
+    DataReady --> SaveMem
+    DataReady --> SaveDisk
+    
+    %% 최종 리턴 경로 통합
+    SaveMem --> Return
+    UpdateMeta --> Return
+
+    %% 그래프 간격 조정을 위한 투명 링크 (레이아웃 힌트)
+    MemoryActor ~~~ DiskActor
+```
+
 ### 메모리 관리 분석
 
 <img width="1507" alt="스크린샷 2025-05-22 03 58 46" src="https://github.com/user-attachments/assets/de515de1-b9e3-4c61-a24b-c5751b95a5fe" />
@@ -92,3 +159,4 @@ Xcode의 Profile 기능을 통해 Instruments를 활용하여 메모리 누수 �
 | :-------------: | :----------: | :-------------: | :----------: |
 | 앱스토어<br>투데이1 | <img src = "https://github.com/user-attachments/assets/b643e51e-0150-4707-acae-9e15f3895e9e" width ="250"> | 앱스토어<br>투데이2 | <img src = "https://github.com/user-attachments/assets/07b2ce58-7437-477c-ab7c-7c3f20f46983" width ="250"> |
 | 앱스토어<br>앱1 | <img src = "https://github.com/user-attachments/assets/89b018ab-fa86-4d80-8978-7d0bec2fed8e" width ="250"> | 앱스토어<br>앱2 | <img src = "https://github.com/user-attachments/assets/6e536127-ec25-4699-8259-013af91a33f3" width ="250"> |
+<br>
