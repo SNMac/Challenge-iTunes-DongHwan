@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 import RxRelay
 import RxSwift
@@ -16,6 +17,8 @@ import Then
 final class SearchResultViewController: UIViewController {
     
     // MARK: - Properties
+    
+    private lazy var logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: String(describing: self))
     
     private let searchResultViewModel: SearchResultViewModel
     
@@ -122,7 +125,7 @@ private extension SearchResultViewController {
                 if let loadingCell = collectionView.cellForItem(at: IndexPath(item: lastItem, section: lastSection)) as? LoadingCell {
                     try await Task.sleep(nanoseconds: 500_000_000)
                     loadingCell.getActivityIndicator.stopAnimating()
-                    print("activityIndicator stop")
+                    logger.info("activityIndicator stop")
                 }
             }
         }
@@ -135,7 +138,7 @@ private extension SearchResultViewController {
                     // 데이터 추가적으로 로드
                     didScrolledBottom.accept(())
                     loadingCell.getActivityIndicator.startAnimating()
-                    print("activityIndicator start")
+                    logger.info("activityIndicator start")
                 }
             }
         }
@@ -151,7 +154,6 @@ private extension SearchResultViewController {
         // 셀 터치했을 때
         Task {
             for await indexPath in searchResultView.getSearchResultCollectionView.rx.itemSelected.asInfallible().values {
-                debugPrint(indexPath)
                 // SearchTextCell인 경우
                 if indexPath.section == 0 {
                     // 홈 화면으로 돌아감
